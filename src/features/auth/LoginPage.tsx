@@ -4,6 +4,7 @@ import { LogIn, Mail, Eye, EyeOff } from "lucide-react";
 import { useSession } from "../../app/SessionProvider";
 import { useAction, useOnline } from "../../app/hooks";
 import { Feedback } from "../../components/ScreenState";
+import { ToothLogo } from "../../components/ToothLogo";
 export function LoginPage() {
   const { session, login } = useSession();
   const [email, setEmail] = useState("");
@@ -26,12 +27,7 @@ export function LoginPage() {
   return (
     <section className="login-page">
       <div className="login-brand">
-        <svg className="login-tooth" viewBox="0 0 48 56" aria-hidden="true">
-          <path
-            fill="currentColor"
-            d="M24 8C17 5 15 1 10 3 3 6 0 13 3 21c3 6 5 9 6 19 1 8 2 13 5 13 4 0 4-10 7-17 1-3 5-3 6 0 3 7 3 17 7 17 3 0 4-5 5-13 1-10 3-13 6-19 3-8 0-15-7-18-5-2-8 0-11 3l6 6-9-4Z"
-          />
-        </svg>
+        <ToothLogo className="login-tooth" />
         <p className="login-tagline">CLÍNICA ODONTOLÓGICA</p>
         <h1>Dentu’s Clinic</h1>
       </div>

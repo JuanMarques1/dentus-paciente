@@ -1055,3 +1055,11 @@ body {
     padding-top: 105px;
   }
 }
+.brand-mark {
+  border: none;
+  color: #b68c50;
+}
+.header-tooth {
+  width: 27px;
+  height: 32px;
+}

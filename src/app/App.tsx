@@ -7,11 +7,12 @@ import {
   Link,
   useLocation,
 } from "react-router-dom";
-import { Heart, WifiOff, ArrowLeft } from "lucide-react";
+import { WifiOff, ArrowLeft } from "lucide-react";
 import type { PatientApi } from "../services/PatientApi";
 import type { Session } from "../services/types";
 import { SessionProvider, useSession } from "./SessionProvider";
 import { useOnline } from "./hooks";
+import { ToothLogo } from "../components/ToothLogo";
 import { BottomNav } from "../components/BottomNav";
 import { LoginPage } from "../features/auth/LoginPage";
 import { PasswordPage } from "../features/auth/PasswordPage";
@@ -86,7 +87,7 @@ function RouteTree() {
       {!isLogin && (
         <header className="brand-header">
           <span className="brand-mark">
-            <Heart size={20} strokeWidth={1.5} />
+            <ToothLogo className="header-tooth" />
           </span>
           <span className="brand-word">
             dentus<span>CLÍNICA ODONTOLÓGICA</span>
