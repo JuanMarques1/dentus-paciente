@@ -994,3 +994,64 @@ body {
     padding-top: 95px;
   }
 }
+.password-reference-page {
+  width: calc(100% - 88px);
+  max-width: 360px;
+  margin: auto;
+  padding: clamp(140px, 29vh, 277px) 0 65px;
+}
+.password-back {
+  position: absolute;
+  left: 28px;
+  top: 26px;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff9e5;
+  color: #a5793e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.password-brand {
+  text-align: center;
+  margin-bottom: 38px;
+}
+.password-key {
+  width: 57px;
+  height: 57px;
+  color: #b68c50;
+  margin-bottom: 12px;
+}
+.password-brand h1 {
+  color: #b68c50;
+  font-size: 29px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+.password-reference-form .login-field {
+  border: 1px solid #f6eedb;
+  margin-bottom: 27px;
+}
+.password-reference-form .login-submit {
+  margin-top: 12px;
+  min-height: 48px;
+}
+.password-first-access {
+  font-size: 12px;
+  color: #81705a;
+  line-height: 1.5;
+  margin: -19px 0 22px;
+  text-align: center;
+}
+.password-length {
+  font-size: 11px;
+  color: #81705a;
+  margin: -15px 0 8px;
+}
+@media (max-height: 650px) {
+  .password-reference-page {
+    padding-top: 105px;
+  }
+}

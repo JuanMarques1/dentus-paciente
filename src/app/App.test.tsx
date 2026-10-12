@@ -67,7 +67,7 @@ function renderAt(api: PatientApi, path: string, required = false) {
 it("primeiro acesso exige troca de senha antes das consultas", async () => {
   renderAt(createDemoApi(), "/consultas", true);
   expect(
-    await screen.findByRole("heading", { name: "Crie sua nova senha" }),
+    await screen.findByRole("heading", { name: "Dentu’s Clinic" }),
   ).toBeVisible();
   expect(screen.queryByRole("heading", { name: "Consultas" })).toBeNull();
 });

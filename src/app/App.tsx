@@ -79,7 +79,8 @@ function Help() {
 }
 function RouteTree() {
   const online = useOnline();
-  const isLogin = useLocation().pathname === "/entrar";
+  const pathname = useLocation().pathname;
+  const isLogin = ["/entrar", "/senha", "/nova-senha"].includes(pathname);
   return (
     <div className={`app-shell ${isLogin ? "login-shell" : ""}`}>
       {!isLogin && (

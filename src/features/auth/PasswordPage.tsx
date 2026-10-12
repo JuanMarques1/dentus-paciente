@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, KeyRound } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, RotateCcw } from "lucide-react";
 import { useSession } from "../../app/SessionProvider";
 import { useAction, useOnline } from "../../app/hooks";
 import { Feedback } from "../../components/ScreenState";
@@ -10,6 +10,7 @@ export function PasswordPage({ required = false }: { required?: boolean }) {
   const [current, setCurrent] = useState(""),
     [next, setNext] = useState(""),
     [repeat, setRepeat] = useState("");
+  const [visible, setVisible] = useState([false, false, false]);
   const action = useAction(),
     online = useOnline();
   const submit = (event: FormEvent) => {
@@ -29,66 +30,92 @@ export function PasswordPage({ required = false }: { required?: boolean }) {
     });
   };
   return (
-    <section className="page password-page">
-      {!required && (
-        <Link to="/perfil" className="back-link">
-          <ArrowLeft size={17} />
-          Voltar ao perfil
+    <section className="password-reference-page">
+      {required ? (
+        <button
+          className="password-back"
+          aria-label="Voltar ao login"
+          onClick={logout}
+        >
+          <ArrowLeft size={22} />
+        </button>
+      ) : (
+        <Link
+          to="/perfil"
+          className="password-back"
+          aria-label="Voltar ao perfil"
+        >
+          <ArrowLeft size={22} />
         </Link>
       )}
-      <span className="section-symbol">
-        <KeyRound size={25} />
-      </span>
-      <h1>{required ? "Crie sua nova senha" : "Alterar senha"}</h1>
-      <p className="page-description">
-        {required
-          ? "Troque a senha provisória fornecida pela clínica para acessar seu espaço."
-          : "Escolha uma senha que só você conheça."}
-      </p>
-      <form className="form" onSubmit={submit}>
-        <label>
-          {required ? "Senha provisória" : "Senha atual"}
-          <input
-            type="password"
-            autoComplete="current-password"
-            value={current}
-            onChange={(e) => setCurrent(e.target.value)}
-            required
+      <div className="password-brand">
+        <svg viewBox="0 0 64 64" aria-hidden="true" className="password-key">
+          <path
+            fill="currentColor"
+            fillRule="evenodd"
+            d="M44 3a20 20 0 0 0-18 29L7 51v11h15v-8h8v-8l6-6A20 20 0 1 0 44 3Zm6 9a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"
           />
-        </label>
-        <label>
-          Nova senha
-          <input
-            type="password"
-            autoComplete="new-password"
-            minLength={8}
-            value={next}
-            onChange={(e) => setNext(e.target.value)}
-            required
-          />
-        </label>
-        <p className="field-hint">Use pelo menos 8 caracteres.</p>
-        <label>
-          Repita a nova senha
-          <input
-            type="password"
-            autoComplete="new-password"
-            minLength={8}
-            value={repeat}
-            onChange={(e) => setRepeat(e.target.value)}
-            required
-          />
-        </label>
+        </svg>
+        <h1>Dentu’s Clinic</h1>
+      </div>
+      {required && (
+        <p className="password-first-access">
+          Troque a senha provisória para acessar seu espaço.
+        </p>
+      )}
+      <form className="login-form password-reference-form" onSubmit={submit}>
+        {[
+          {
+            label: required ? "Senha provisória" : "Senha atual",
+            value: current,
+            set: setCurrent,
+          },
+          { label: "Nova senha", value: next, set: setNext },
+          { label: "Confirmar nova senha", value: repeat, set: setRepeat },
+        ].map((field, index) => (
+          <div key={index}>
+            <label className="login-label" htmlFor={`change-password-${index}`}>
+              {field.label}
+            </label>
+            <div className="login-field">
+              <input
+                id={`change-password-${index}`}
+                type={visible[index] ? "text" : "password"}
+                autoComplete={index === 0 ? "current-password" : "new-password"}
+                minLength={index === 0 ? undefined : 8}
+                placeholder="••••••••"
+                value={field.value}
+                onChange={(e) => field.set(e.target.value)}
+                required
+                aria-describedby={index > 0 ? "password-length" : undefined}
+              />
+              <button
+                type="button"
+                className="icon-button"
+                aria-label={`${visible[index] ? "Ocultar" : "Mostrar"} ${field.label.toLowerCase()}`}
+                onClick={() =>
+                  setVisible((values) =>
+                    values.map((value, i) => (i === index ? !value : value)),
+                  )
+                }
+              >
+                {visible[index] ? <Eye size={18} /> : <EyeOff size={18} />}
+              </button>
+            </div>
+          </div>
+        ))}
+        <p id="password-length" className="password-length">
+          Use pelo menos 8 caracteres.
+        </p>
         <Feedback error={action.error} />
-        <button className="button primary" disabled={action.busy || !online}>
-          {action.busy ? "Salvando…" : "Salvar nova senha"}
+        <button
+          className="button login-submit"
+          disabled={action.busy || !online}
+        >
+          <RotateCcw size={19} />
+          {action.busy ? "Salvando…" : "Atualizar Senha"}
         </button>
       </form>
-      {required && (
-        <button className="text-button" onClick={logout}>
-          Voltar ao login
-        </button>
-      )}
     </section>
   );
 }
