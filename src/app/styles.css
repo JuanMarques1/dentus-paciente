@@ -129,23 +129,6 @@ h2 {
   color: var(--muted);
   text-align: right;
 }
-.demo-banner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 9px;
-  font-size: 10px;
-  letter-spacing: 0.4px;
-  color: #6c623f;
-  background: #dcd8bf80;
-}
-.demo-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--gold-dark);
-}
 .offline-banner {
   display: flex;
   align-items: center;
@@ -881,17 +864,6 @@ body {
 /* Login follows the supplied clinic identity. */
 .login-shell {
   background: #fff;
-}
-.login-shell .demo-banner {
-  position: absolute;
-  top: 14px;
-  left: 0;
-  right: 0;
-  background: transparent;
-  color: #81796b;
-  font-size: 10px;
-  justify-content: center;
-  border: 0;
 }
 .login-page {
   padding: clamp(110px, 27vh, 242px) 0 70px;

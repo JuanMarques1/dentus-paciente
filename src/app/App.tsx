@@ -93,12 +93,6 @@ function RouteTree() {
           <span className="portal-label">Portal do paciente</span>
         </header>
       )}
-      {import.meta.env.VITE_API_MODE !== "http" && (
-        <div className="demo-banner">
-          <span className="demo-dot" />
-          Demonstração · dados fictícios
-        </div>
-      )}
       {!online && (
         <div className="offline-banner" role="status">
           <WifiOff size={17} />
