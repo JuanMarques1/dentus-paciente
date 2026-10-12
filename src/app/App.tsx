@@ -79,17 +79,20 @@ function Help() {
 }
 function RouteTree() {
   const online = useOnline();
+  const isLogin = useLocation().pathname === "/entrar";
   return (
-    <div className="app-shell">
-      <header className="brand-header">
-        <span className="brand-mark">
-          <Heart size={20} strokeWidth={1.5} />
-        </span>
-        <span className="brand-word">
-          dentus<span>CLÍNICA ODONTOLÓGICA</span>
-        </span>
-        <span className="portal-label">Portal do paciente</span>
-      </header>
+    <div className={`app-shell ${isLogin ? "login-shell" : ""}`}>
+      {!isLogin && (
+        <header className="brand-header">
+          <span className="brand-mark">
+            <Heart size={20} strokeWidth={1.5} />
+          </span>
+          <span className="brand-word">
+            dentus<span>CLÍNICA ODONTOLÓGICA</span>
+          </span>
+          <span className="portal-label">Portal do paciente</span>
+        </header>
+      )}
       {import.meta.env.VITE_API_MODE !== "http" && (
         <div className="demo-banner">
           <span className="demo-dot" />

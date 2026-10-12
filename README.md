@@ -13,7 +13,7 @@ npm run dev
 
 Abra o endereço mostrado pelo Vite. O modo padrão é demonstração, com aviso visível de dados fictícios.
 
-**Acesso fictício:** `paciente@demo.com` / `Clinica123`. No primeiro acesso, defina uma nova senha de pelo menos 8 caracteres. As alterações existem em memória enquanto a página permanece aberta. Recarregar restaura a demonstração e solicita login. Essas credenciais não pertencem ao banco real.
+**Acesso fictício:** `paciente@demo.com` / `Clinica123`. No primeiro acesso, defina uma nova senha de pelo menos 8 caracteres. Os dados clínicos da demonstração ficam em memória. Com “Manter Logado” ativo, a sessão pode ser retomada por até 8 horas; apenas as credenciais fictícias da demonstração são guardadas para permitir essa retomada. Sair remove essa informação. Essas credenciais não pertencem ao banco real.
 
 ## Funcionalidades
 
@@ -30,7 +30,7 @@ Copie `.env.example` para `.env.local`, altere `VITE_API_MODE=http` e configure 
 
 Leia [o contrato proposto](docs/contrato-api.md). As rotas específicas do paciente ainda precisam ser implementadas pelo grupo. `src/services/httpApi.ts` centraliza rotas, envelope e mapeamento. Sem uma API que cumpra esse contrato, o modo HTTP informa o erro; não substitui dados reais por fictícios. O banco e o sistema da clínica não foram modificados.
 
-O token é mantido em memória e enviado via Bearer. Recarregar exige novo login. O backend valida propriedade de cada recurso, permissões, prazo de cancelamento e persistência. O cliente não garante essas regras sozinho.
+O token é enviado via Bearer. Sem “Manter Logado”, fica apenas em memória. Quando a opção é escolhida, fica no armazenamento local por até 8 horas para retomar a sessão; 401 ou Sair remove o token. No modo HTTP, senhas e prontuários não são armazenados. O prazo e a revogação definitivos dependem da API. O backend valida propriedade de cada recurso, permissões, prazo de cancelamento e persistência. O cliente não garante essas regras sozinho.
 
 ## Verificar e gerar entrega
 

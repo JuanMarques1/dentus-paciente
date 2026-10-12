@@ -2,7 +2,11 @@ import type { PatientApi } from "./PatientApi";
 import type { Appointment, Profile, RecordDetails } from "./types";
 import { ApiError } from "./ApiError";
 import { canCancelAt } from "../features/appointments/rules";
-export function createDemoApi(latency = 0): PatientApi {
+import { demoAuthKey, readRememberedSession } from "./sessionStorage";
+export function createDemoApi(
+  latency = 0,
+  storage: Storage | null = null,
+): PatientApi {
   let token: string | null = null,
     password = "Clinica123",
     mustChangePassword = true;
@@ -10,6 +14,37 @@ export function createDemoApi(latency = 0): PatientApi {
     name: "João Victor Carrilho Loza",
     email: "paciente@demo.com",
     phone: "(15) 99999-6789",
+  };
+  try {
+    if (storage && readRememberedSession()) {
+      const saved = JSON.parse(storage.getItem(demoAuthKey) ?? "null");
+      if (
+        typeof saved?.password === "string" &&
+        typeof saved.email === "string" &&
+        typeof saved.mustChangePassword === "boolean"
+      ) {
+        password = saved.password;
+        profile.email = saved.email;
+        mustChangePassword = saved.mustChangePassword;
+      }
+    }
+  } catch {
+    /* Only fictitious demo credentials can be restored. */
+  }
+  const saveDemoAuth = () => {
+    try {
+      if (storage && readRememberedSession())
+        storage.setItem(
+          demoAuthKey,
+          JSON.stringify({
+            password,
+            email: profile.email,
+            mustChangePassword,
+          }),
+        );
+    } catch {
+      /* Optional storage. */
+    }
   };
   const future = (days: number, hour: number) => {
     const date = new Date();
@@ -122,6 +157,7 @@ export function createDemoApi(latency = 0): PatientApi {
         );
       password = next;
       mustChangePassword = false;
+      saveDemoAuth();
     },
     async getProfile() {
       await authorize();
@@ -135,6 +171,7 @@ export function createDemoApi(latency = 0): PatientApi {
       )
         throw new ApiError("Confira o e-mail e o telefone.", 400);
       profile = { ...profile, ...input, email: input.email.trim() };
+      saveDemoAuth();
       return structuredClone(profile);
     },
     async uploadPhoto(file) {

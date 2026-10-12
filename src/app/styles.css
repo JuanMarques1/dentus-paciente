@@ -878,3 +878,147 @@ body {
     transition: none !important;
   }
 }
+/* Login follows the supplied clinic identity. */
+.login-shell {
+  background: #fff;
+}
+.login-shell .demo-banner {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  right: 0;
+  background: transparent;
+  color: #81796b;
+  font-size: 10px;
+  justify-content: center;
+  border: 0;
+}
+.login-page {
+  padding: clamp(110px, 27vh, 242px) 0 70px;
+  width: calc(100% - 88px);
+  max-width: 360px;
+  margin: auto;
+  color: #a5793e;
+}
+.login-brand {
+  text-align: center;
+  margin-bottom: 38px;
+}
+.login-tooth {
+  width: 42px;
+  height: 48px;
+  color: #b68c50;
+  display: block;
+  margin: 0 auto 12px;
+}
+.login-tagline {
+  font-size: 8px;
+  letter-spacing: 3px;
+  color: #a88b58;
+  margin-bottom: 5px;
+}
+.login-brand h1 {
+  color: #b68c50;
+  font-size: 29px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+.login-label {
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #987039;
+}
+.login-field {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #f0e7d3;
+  margin: 6px 0 26px;
+  min-height: 48px;
+  color: #b68c50;
+}
+.login-field input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #655f56;
+}
+.login-field input::placeholder {
+  color: #97979c;
+  opacity: 1;
+}
+.login-field > svg {
+  flex-shrink: 0;
+  margin-right: 12px;
+}
+.login-field .icon-button {
+  background: transparent;
+  color: #b68c50;
+  flex-shrink: 0;
+}
+.remember-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  font-size: 14px;
+  letter-spacing: 0.4px;
+  margin: 0 0 22px;
+  cursor: pointer;
+}
+.remember-label input {
+  position: absolute;
+  width: 32px;
+  height: 18px;
+  opacity: 0;
+  margin: 0;
+}
+.remember-switch {
+  width: 32px;
+  height: 16px;
+  border-radius: 20px;
+  border: 1px solid #dec487;
+  background: #fffbed;
+  display: block;
+}
+.remember-switch::after {
+  content: "";
+  display: block;
+  width: 11px;
+  height: 11px;
+  margin: 1.5px;
+  border-radius: 50%;
+  background: #d9bf73;
+  transition: transform 0.15s;
+}
+.remember-label input:checked + .remember-switch {
+  background: #b68c50;
+  border-color: #b68c50;
+}
+.remember-label input:checked + .remember-switch::after {
+  background: #fff;
+  transform: translateX(16px);
+}
+.login-submit {
+  background: #b68c50;
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  min-height: 46px;
+  justify-content: center;
+  font-weight: 700;
+  gap: 9px;
+}
+@media (max-height: 650px) {
+  .login-page {
+    padding-top: 95px;
+  }
+}

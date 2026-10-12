@@ -4,5 +4,6 @@ import { afterEach, vi } from "vitest";
 Object.defineProperty(window, "scrollTo", { value: () => {}, writable: true });
 afterEach(() => {
   cleanup();
+  localStorage.clear();
   vi.restoreAllMocks();
 });

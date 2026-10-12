@@ -109,7 +109,7 @@ it("401 em ação retorna ao login sem sucesso", async () => {
   renderAt(api, "/consultas");
   await user.click(await screen.findByRole("button", { name: "Confirmar" }));
   expect(
-    await screen.findByRole("heading", { name: "Bem-vindo de volta" }),
+    await screen.findByRole("heading", { name: "Dentu’s Clinic" }),
   ).toBeVisible();
   expect(screen.queryByText("Consulta confirmada.")).toBeNull();
 });
