@@ -4,6 +4,7 @@ import {
   useState,
   useCallback,
   useMemo,
+  useRef,
   type ReactNode,
 } from "react";
 import type { PatientApi } from "../services/PatientApi";
@@ -27,20 +28,28 @@ export function SessionProvider({
   initialSession?: Session;
   children: ReactNode;
 }) {
+  const generation = useRef(0);
   const [session, setSession] = useState<Session | null>(() => {
     api.setToken(initialSession?.token ?? null);
     return initialSession ?? null;
   });
   const logout = useCallback(() => {
+    generation.current += 1;
     api.setToken(null);
     setSession(null);
   }, [api]);
   const run = useCallback(
     async <T,>(operation: (service: PatientApi) => Promise<T>) => {
+      const issuedUnder = generation.current;
       try {
         return await operation(api);
       } catch (error) {
-        if (error instanceof ApiError && error.status === 401) logout();
+        if (
+          error instanceof ApiError &&
+          error.status === 401 &&
+          issuedUnder === generation.current
+        )
+          logout();
         throw error;
       }
     },
@@ -54,6 +63,7 @@ export function SessionProvider({
           "Resposta de login incompatível. Confira o contrato com a clínica.",
         );
       api.setToken(next.token);
+      generation.current += 1;
       setSession(next);
     },
     [api],

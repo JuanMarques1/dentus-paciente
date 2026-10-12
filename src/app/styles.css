@@ -205,6 +205,14 @@ main {
 .appointment-card.highlight {
   background: var(--gold);
   border-color: var(--gold);
+  color: var(--ink);
+}
+.appointment-card.highlight h2 {
+  color: var(--brown);
+}
+.appointment-card.highlight .appointment-meta small,
+.appointment-card.highlight .appointment-date small {
+  color: var(--ink);
 }
 .appointment-card.inactive {
   opacity: 0.8;

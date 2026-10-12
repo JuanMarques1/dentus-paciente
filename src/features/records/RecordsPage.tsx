@@ -48,7 +48,11 @@ export function RecordsPage() {
                 <h2>{record.title}</h2>
                 <p className="record-dentist">Dentista {record.dentist}</p>
                 <p className="record-description">{record.summary}</p>
-                <Link className="record-link" to={`/prontuario/${record.id}`}>
+                <Link
+                  className="record-link"
+                  to={`/prontuario/${encodeURIComponent(record.id)}`}
+                  aria-label={`Orientações do atendimento: ${record.title}`}
+                >
                   <FileText size={16} />
                   {record.id === "1"
                     ? "Orientações do atendimento"

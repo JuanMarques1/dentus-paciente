@@ -26,8 +26,10 @@ try {
 }
 if (import.meta.env.PROD && "serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    void navigator.serviceWorker.register("/sw.js", { type: "module" }).catch(() => {
-      /* Installation remains optional; online use continues. */
-    });
+    void navigator.serviceWorker
+      .register("/sw.js", { type: "module" })
+      .catch(() => {
+        /* Installation remains optional; online use continues. */
+      });
   });
 }

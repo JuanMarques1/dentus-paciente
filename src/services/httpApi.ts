@@ -21,8 +21,10 @@ export function createHttpApi(
   fetcher: typeof fetch = fetch,
 ): PatientApi {
   let token: string | null = null;
+  let generation = 0;
   if (!base) throw new Error("Configure VITE_API_BASE_URL para usar a API.");
   async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
+    const issuedUnder = generation;
     if (!navigator.onLine)
       throw new ApiError("Você está sem internet. Reconecte para continuar.");
     const headers = new Headers(init.headers);
@@ -50,7 +52,7 @@ export function createHttpApi(
     }
     const body = await response.json().catch(() => null);
     if (!response.ok || body?.sucesso === false || body?.success === false) {
-      if (response.status === 401) token = null;
+      if (response.status === 401 && generation === issuedUnder) token = null;
       throw new ApiError(
         body?.mensagem ??
           body?.message ??
@@ -66,6 +68,7 @@ export function createHttpApi(
   });
   return {
     setToken(value) {
+      generation += 1;
       token = value;
     },
     login: (email, password) =>

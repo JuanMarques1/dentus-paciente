@@ -38,7 +38,7 @@ function ScrollAndFocus() {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo?.(0, 0);
-    document.querySelector<HTMLElement>("main")?.focus();
+    document.querySelector<HTMLElement>("main")?.focus({ preventScroll: true });
     document.title = `${pathname.startsWith("/consultas") ? "Consultas" : pathname.startsWith("/prontuario") ? "Prontuário" : pathname.startsWith("/perfil") ? "Perfil" : "Seu espaço"} · Dentus`;
   }, [pathname]);
   return null;

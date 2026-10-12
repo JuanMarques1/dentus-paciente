@@ -5,6 +5,45 @@ import { AppRoutes } from "./App";
 import { createDemoApi } from "../services/demoApi";
 import type { PatientApi } from "../services/PatientApi";
 import { ApiError } from "../services/ApiError";
+it("upload de foto preserva alterações de contato ainda não salvas", async () => {
+  const api = await readyApi();
+  api.uploadPhoto = async () => ({
+    ...(await api.getProfile()),
+    photoUrl: "data:image/png;base64,aA==",
+  });
+  const user = userEvent.setup();
+  renderAt(api, "/perfil");
+  const email = await screen.findByLabelText("E-mail");
+  await user.clear(email);
+  await user.type(email, "rascunho@demo.com");
+  await user.upload(
+    screen.getByLabelText("Alterar foto"),
+    new File(["fake"], "foto.png", { type: "image/png" }),
+  );
+  expect(await screen.findByText("Sua foto foi atualizada.")).toBeVisible();
+  expect(email).toHaveValue("rascunho@demo.com");
+});
+it("não permite editar contato durante uma atualização pendente", async () => {
+  const api = await readyApi();
+  const original = api.updateProfile;
+  let release!: () => void;
+  const waiting = new Promise<void>((r) => {
+    release = r;
+  });
+  api.updateProfile = async (input) => {
+    await waiting;
+    return original(input);
+  };
+  const user = userEvent.setup();
+  renderAt(api, "/perfil");
+  const email = await screen.findByLabelText("E-mail");
+  await user.click(screen.getByRole("button", { name: "Salvar alterações" }));
+  expect(email).toBeDisabled();
+  release();
+  expect(
+    await screen.findByText("Seus dados foram atualizados."),
+  ).toBeVisible();
+});
 async function readyApi() {
   const api = createDemoApi();
   const session = await api.login("paciente@demo.com", "Clinica123");
@@ -98,7 +137,9 @@ it("abre detalhes do histórico", async () => {
   const user = userEvent.setup();
   renderAt(await readyApi(), "/prontuario");
   await user.click(
-    await screen.findByRole("link", { name: /orientações do atendimento/i }),
+    await screen.findByRole("link", {
+      name: "Orientações do atendimento: Limpeza",
+    }),
   );
   expect(
     await screen.findByRole("heading", { name: "Orientações do atendimento" }),

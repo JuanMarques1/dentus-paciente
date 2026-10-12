@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useLayoutEffect, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import {
   Camera,
@@ -19,12 +19,12 @@ export function ProfilePage() {
     { run, logout } = useSession();
   const [email, setEmail] = useState(""),
     [phone, setPhone] = useState("");
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (resource.data) {
       setEmail(resource.data.email);
       setPhone(resource.data.phone);
     }
-  }, [resource.data]);
+  }, [resource.data?.email, resource.data?.phone]);
   const submit = (event: FormEvent) => {
     event.preventDefault();
     if (phone.replace(/\D/g, "").length < 10) {
@@ -107,6 +107,7 @@ export function ProfilePage() {
                   <Mail size={17} />
                   <input
                     type="email"
+                    disabled={action.busy}
                     name="email"
                     autoComplete="email"
                     value={email}
@@ -121,6 +122,7 @@ export function ProfilePage() {
                   <Phone size={17} />
                   <input
                     type="tel"
+                    disabled={action.busy}
                     name="phone"
                     autoComplete="tel"
                     value={phone}
