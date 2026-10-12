@@ -863,7 +863,7 @@ body {
 }
 /* Login follows the supplied clinic identity. */
 .login-shell {
-  background: #fff;
+  background: var(--canvas);
 }
 .login-page {
   padding: clamp(110px, 27vh, 242px) 0 70px;
